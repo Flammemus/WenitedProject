@@ -7,41 +7,23 @@ with open("token.yaml") as f:
 
 openai.api_key = token_yaml['token']
 
-
-
-print("---------------------------------------")
-print()
+print("---------------------------------------\n")
+print("List of all registered clients:\n")
 
 for company in Company.companyList:
-    print(f"{company.name}")
+    print(f"- {company.name}")
 
-print()
-print("1. Summarize info from all companies")
-print("2. Summarize info from selected company")
-print()
+print("\nWrite name of client for a summarized overview\n")
 
-action = input("(1/2): ")
-
-if action == "1":
-    action = "all companies from the list"
-
-if action == "2":
-    print("Write company you want info from")
-    print()
-    action = input(": ")
-
-
+action = input("- ")
 
 messages = [
-    {"role": "system", "content": "Your task is to summarize information about companies such as emails from them, appointments, what the use thinks of them and how many times the user has visited the company. only summarize from the information i have given you. I need you to summarize key points from important emails as short as possible."},
-    {"role": "user", "content": f"summarize info about {action}. Structure the message in a neat and tidy way"},
-    {"role": "user", "content": f"times met with wenited: {wenited.timesMetWith}, times met with amazon: {amazon.timesMetWith}"}
+    {"role": "system", "content": f"Your task is to summarize information about selected company such as emails from them, appointments, status, and times met. only summarize from the information i have given you. I need you to summarize key points from important emails as short as possible."},
+    {"role": "user", "content": f"Only summarize information about {action}. Structure the message in a neat and tidy way"},
 ]
 
 for company in Company.companyList:
-    messages.append({"role": "assistant", "content": f"All emails from {company.name}: {company.emails}. status of {company.name}: {company.status}."})
-
-
+    messages.append({"role": "assistant", "content": f"All emails from {company.name}: {company.emails}. status of {company.name}: {company.status}. times met with {company.name}: {company.timesMetWith}."})
 
 gptOutput = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
@@ -49,7 +31,5 @@ gptOutput = openai.ChatCompletion.create(
     messages=messages,
 )
 
-print('--------------------------------------------------')
-print(gptOutput)
-print('\n\n--------------------------------------------------\n\n')
-print(gptOutput["choices"][0]["message"]["content"])
+print("------------------------------------------------------\n")
+print(gptOutput["choices"][0]["message"]["content"]), print()
