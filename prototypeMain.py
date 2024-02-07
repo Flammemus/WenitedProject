@@ -1,11 +1,13 @@
 import openai
-import yaml
 from classes import *
+import json
 
-with open("token.yaml") as f:
-    token_yaml = yaml.load(f, Loader=yaml.FullLoader)
+with open("data.json", "r") as f:
+    data = json.load(f)
 
-openai.api_key = token_yaml['token']
+myApiKey = data["myApiKey"]
+
+openai.api_key = myApiKey
 
 print("---------------------------------------\n")
 print("List of all registered clients:\n")
@@ -31,5 +33,5 @@ gptOutput = openai.ChatCompletion.create(
     messages=messages,
 )
 
-print("------------------------------------------------------\n")
+print("\n------------------------------------------------------\n")
 print(gptOutput["choices"][0]["message"]["content"]), print()
