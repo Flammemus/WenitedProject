@@ -10,6 +10,7 @@ openai.api_key = myApiKey
 
 commands = ["start > summarize selected company info",
             "view > disply latest saved info from selected client",
+            "back > return to menu",
             "help > display all commands"]
 
 def showCommands():
@@ -61,12 +62,16 @@ while main:
 
     elif action == "view":
             showSavedClientSumNames()
-            print("\nWrite the name of a client to display lates saved AI summarization\n")
+            print("\nWrite the name of a client to display lates saved AI summarization (or 'back')\n")
 
             view = True
             while view:
 
                 action = input(": ")
+                if action.lower() == "back":
+                    print("\nReturned to menu\n")
+                    break
+
                 savedData = loadSavedData(action)
                 print("\n", savedData, "\n")
 
@@ -82,9 +87,12 @@ while main:
         nameCheck = True
         while nameCheck:
 
-            print("\nWrite the name of a registered client to display a summarized overview\n")
+            print("\nWrite the name of a registered client to display a summarized overview (or 'back')\n")
 
             action = input(": ")
+            if action.lower() == "back":
+                print("\nReturned to menu\n")
+                break
             selected_company = None
             
             for company in Company.companyList:
@@ -129,11 +137,13 @@ while main:
                             json.dump(existing_data, f, indent=4)
                             f.write('\n')
 
-                        print("Saved successfully\n")
+                        print("\nSaved successfully")
+                        print("Returned to menu\n")
                         savingProcess = False
 
                     elif action == "n":
-                        print("Did not save\n")
+                        print("\nDid not save")
+                        print("Returned to menu\n")
                         savingProcess = False
 
                     else:
