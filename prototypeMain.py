@@ -45,7 +45,7 @@ def showSavedClientSumNames():
 
             print("\nList of all saved client summarizations:\n")
             for name in client_names:
-                print(name)
+                print("-", name)
 
     except FileNotFoundError:
         print("No data file found")
@@ -104,7 +104,7 @@ while main:
                 print("\nAwaiting gpt response...")
                 nameCheck = False
                 messages = [
-                    {"role": "user", "content": f"Summarize and shorten {selected_company.name} emails, {selected_company.name} status, number of meetings from {selected_company.name} only! (it is very important that you only write about {selected_company.name}) structure the message neatly with new lines. Rewrite the emails to be shorter and more precise"},
+                    {"role": "user", "content": f"Summarize and shorten and extract useful key points from {selected_company.name} emails, {selected_company.name} status, number of meetings from {selected_company.name}. Structure the message neatly with new lines. Rewrite emails to be shorter and more precise"},
                     {"role": "system", "content": f"you are an assistant for the user who responds short and precise. You do not ask questions. This is the knowledge you posses:"},
                     {"role": "system", "content": f"This is the template for showing info that you must use: {selected_company.name} emails: - (insert summarized and shoren email here)- (insert summarized and shoren email here)(one line for each email.) status: number of meetings:"},
                     {"role": "system", "content": f"{selected_company.name} emails: {selected_company.emails}. {selected_company.name} status: {selected_company.status}. {selected_company.name} number of meeting with: {selected_company.numberOfMeetings}."},
