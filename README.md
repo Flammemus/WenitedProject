@@ -39,15 +39,9 @@ The project consists of two main files:
     prototype.main: Contains the main functionality of the application, including command handling, data loading/saving, and interaction with the OpenAI GPT-3.5 model.
     companies.py: Defines the Company class and initializes fake company data used by the application.
 
-Fake Company Data
-
 The companies.py file contains fake company data used for demonstration purposes. Each company object includes attributes such as name, status, number of meetings, and a list of example emails.
-Contributing
 
 Contributions to the project are welcome! If you have any suggestions, bug fixes, or enhancements, feel free to submit a pull request or open an issue on GitHub.
 License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
-Contact
-
-For any inquiries or support, please contact your_email@example.com.
+For any inquiries or support, please contact asmaskbau@gmail.com
