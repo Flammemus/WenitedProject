@@ -42,6 +42,5 @@ The project consists of two main files:
 The companies.py file contains fake company data used for demonstration purposes. Each company object includes attributes such as name, status, number of meetings, and a list of example emails.
 
 Contributions to the project are welcome! If you have any suggestions, bug fixes, or enhancements, feel free to submit a pull request or open an issue on GitHub.
-License
 
 For any inquiries or support, please contact asmaskbau@gmail.com
