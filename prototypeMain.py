@@ -61,22 +61,22 @@ while main:
         showCommands()
 
     elif action == "view":
-            showSavedClientSumNames()
-            print("\nWrite the name of a client to display lates saved AI summarization (or 'back')\n")
+        showSavedClientSumNames()
+        print("\nWrite the name of a client to display lates saved AI summarization (or 'back')\n")
 
-            view = True
-            while view:
+        view = True
+        while view:
 
-                action = input(": ")
-                if action.lower() == "back":
-                    print("\nReturned to menu\n")
-                    break
+            action = input(": ")
+            if action.lower() == "back":
+                print("\nReturned to menu\n")
+                break
 
-                savedData = loadSavedData(action)
-                print("\n", savedData, "\n")
+            savedData = loadSavedData(action)
+            print("\n", savedData, "\n")
 
-                if savedData != "Client not found":
-                    view = False
+            if savedData != "Client not found":
+                view = False
 
     elif action == "start":
         print("\nList of all registered clients:\n")
