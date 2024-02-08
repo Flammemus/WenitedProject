@@ -7,6 +7,8 @@ class Company:
         self.emails = emails
         Company.companyList.append(self)
 
+# Company attributes are fake and made up
+
 wenited = Company(
     name="Wenited",
     status="Progressing",

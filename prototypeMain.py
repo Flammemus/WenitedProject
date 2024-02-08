@@ -8,11 +8,12 @@ with open("myApiKey.json", "r") as f:
 myApiKey = apiKeyData["myApiKey"]
 openai.api_key = myApiKey
 
-commands = ["help > display all commands",
-            "start > summarize selected company info",
-            "view > disply selected saved info"]
+commands = ["start > summarize selected company info",
+            "view > disply latest saved info from selected client",
+            "help > display all commands"]
 
 def showCommands():
+
     print("\nList of all commands:\n")
     for i in commands:
         print("-", i)
@@ -24,6 +25,7 @@ def loadSavedData(clientName):
         with open("data.json", "r") as f:
             savedData = json.load(f)
             return savedData.get(clientName, "Client not found")
+        
     except FileNotFoundError:
         return "No data file found"
 
@@ -58,11 +60,18 @@ while main:
         showCommands()
 
     elif action == "view":
-        showSavedClientSumNames()
-        print("\nWrite name of client to display saved AI summarization\n")
-        action = input(": ")
-        savedData = loadSavedData(action)
-        print("\n", savedData, "\n")
+            showSavedClientSumNames()
+            print("\nWrite the name of a client to display lates saved AI summarization\n")
+
+            view = True
+            while view:
+
+                action = input(": ")
+                savedData = loadSavedData(action)
+                print("\n", savedData, "\n")
+
+                if savedData != "Client not found":
+                    view = False
 
     elif action == "start":
         print("\nList of all registered clients:\n")
@@ -73,7 +82,7 @@ while main:
         nameCheck = True
         while nameCheck:
 
-            print("\nWrite name of client for a summarized overview\n")
+            print("\nWrite the name of a registered client to display a summarized overview\n")
 
             action = input(": ")
             selected_company = None
@@ -84,12 +93,12 @@ while main:
                     break
             
             if selected_company:
-                print("\nWaiting for gpt...")
+                print("\nAwaiting gpt response...")
                 nameCheck = False
                 messages = [
                     {"role": "user", "content": f"Summarize and shorten {selected_company.name} emails, {selected_company.name} status, number of meetings from {selected_company.name} only! (it is very important that you only write about {selected_company.name}) structure the message neatly with new lines. Rewrite the emails to be shorter and more precise"},
                     {"role": "system", "content": f"you are an assistant for the user who responds short and precise. You do not ask questions. This is the knowledge you posses:"},
-                    {"role": "system", "content": f"This is the template for showing info that you must use: emails: - (insert summarized and shoren email here)- (insert summarized and shoren email here)(one line for each email.) status: number of meetings:"},
+                    {"role": "system", "content": f"This is the template for showing info that you must use: {selected_company.name} emails: - (insert summarized and shoren email here)- (insert summarized and shoren email here)(one line for each email.) status: number of meetings:"},
                     {"role": "system", "content": f"{selected_company.name} emails: {selected_company.emails}. {selected_company.name} status: {selected_company.status}. {selected_company.name} number of meeting with: {selected_company.numberOfMeetings}."},
                 ]
 
@@ -108,17 +117,14 @@ while main:
                     action = input("Save response? (y/n): ")
 
                     if action == "y":
-                        # Load existing data
                         try:
                             with open("data.json", "r") as f:
                                 existing_data = json.load(f)
                         except FileNotFoundError:
                             existing_data = {}
 
-                        # Append new entry to existing data
                         existing_data[selected_company.name.lower()] = gptOutput["choices"][0]["message"]["content"]
 
-                        # Write updated data back to the file
                         with open("data.json", "w") as f:
                             json.dump(existing_data, f, indent=4)
                             f.write('\n')
