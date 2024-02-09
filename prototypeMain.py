@@ -1,6 +1,7 @@
 import openai
 import json
 from companies import *
+from art import *
 
 with open("myApiKey.json", "r") as f:
     apiKeyData = json.load(f)
@@ -15,7 +16,7 @@ commands = ["start > summarize selected company info",
 
 def showCommands():
 
-    print("\nList of all commands:\n")
+    print("List of all commands:\n")
     for i in commands:
         print("-", i)
     print()
@@ -50,7 +51,9 @@ def showSavedClientSumNames():
     except FileNotFoundError:
         print("No data file found")
 
-print("---------------------------------------")
+print("@*-----------------------------------------------------------------------------------------------------------*@")
+tprint("Summarizator 2000")
+
 showCommands()
 
 main = True
@@ -101,7 +104,16 @@ while main:
                     break
             
             if selected_company:
-                print("\nAwaiting gpt response...")
+
+                print("\nShortening these emails:")
+                for i in selected_company.emails:
+                    print("\n-", i)
+
+                print()
+                print("@*------------------------*@")
+                print("| Awaiting gpt response... |")
+                print("@*------------------------*@")
+
                 nameCheck = False
                 messages = [
                     {"role": "user", "content": f"Summarize and shorten and extract useful key points from {selected_company.name} emails, {selected_company.name} status, number of meetings from {selected_company.name}. Structure the message neatly with new lines. Rewrite emails to be shorter and more precise"},
@@ -116,8 +128,7 @@ while main:
                     messages=messages
                 )
 
-                print("\n------------------------------------------------------\n")
-
+                print("\n-----------------------------------------\n")
                 print(gptOutput["choices"][0]["message"]["content"]), print()
 
                 savingProcess = True
